@@ -1,38 +1,21 @@
 
 class Solution {
 public:
-    ListNode*function(ListNode*temp1,ListNode*temp2,int d){
-        while(d--){
-            temp2=temp2->next;
-        }
+   
+
+    
+    ListNode *getIntersectionNode(ListNode *head1, ListNode *head2) {
+       ListNode*temp1=head1;
+        ListNode*temp2=head2;
+        if(head1==nullptr || head2==nullptr){return nullptr;}
         while(temp1!=temp2){
             temp1=temp1->next;
             temp2=temp2->next;
+            if(temp1==temp2){return temp1;}
+            if(temp1==nullptr){temp1=head2;}
+            if(temp2==nullptr){temp2=head1;}
+
         }
         return temp1;
-
-    }
-    ListNode *getIntersectionNode(ListNode *head1, ListNode *head2) {
-        ListNode*temp1=head1;
-        int n1=0;
-        int n2=0;
-        ListNode*temp2=head2;
-        while(temp1!=nullptr){
-            n1++;
-            temp1=temp1->next;
-        }
-        while(temp2!=nullptr){
-            n2++;
-            temp2=temp2->next;
-        }
-        temp1=head1;
-        temp2=head2;
-        if(n1>n2){
-           return function(temp2,temp1,n1-n2);
-        }
-        else{
-           return function(temp1,temp2,n2-n1);
-        }
-       return nullptr;
     }
 };

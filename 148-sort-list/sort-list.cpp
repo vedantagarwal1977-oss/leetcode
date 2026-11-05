@@ -1,20 +1,42 @@
 class Solution {
 public:
+    ListNode* findmiddle(ListNode*head){
+        ListNode* fast=head->next;
+        ListNode*slow=head;
+        while(fast!=nullptr && fast->next!=nullptr){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        return slow;
+    }
+    ListNode* mergetwolinkedlist(ListNode* left,ListNode*right){
+        ListNode* dummy= new ListNode(-1);
+        ListNode* temp=dummy;
+        ListNode*r=right;
+        ListNode*l=left;
+        while(r!=nullptr && l!=nullptr){
+            if(r->val>l->val){
+                temp->next=l;
+                l=l->next;
+            }
+            else{
+                temp->next=r;
+                r=r->next;
+            }
+            temp=temp->next;
+        }
+        if(r!=nullptr){temp->next=r;}
+        else{temp->next=l;}
+        return dummy->next;
+    }
     ListNode* sortList(ListNode* head) {
-        ListNode* temp=head;
-        vector<int> nums;
-        while(temp!=nullptr){
-            nums.push_back(temp->val);
-            temp=temp->next;
-        }
-        sort(nums.begin(),nums.end());
-        int n=nums.size();
-        temp=head;
-        for(int i=0;i<n;i++){
-            temp->val=nums[i];
-            temp=temp->next;
-
-        }
-        return head;
+       if(head==nullptr || head->next==nullptr){return head;}
+       ListNode* middle=findmiddle(head);
+       ListNode* left=head;
+       ListNode* right=middle->next;
+       middle->next=nullptr;
+       left=sortList(left);
+       right=sortList(right);
+       return mergetwolinkedlist(left,right);
     }
 };

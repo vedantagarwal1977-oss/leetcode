@@ -1,59 +1,48 @@
 
 class Solution {
 public:
+    ListNode* reverse(ListNode* temp){
+        ListNode*prev=nullptr;
+        while(temp!=nullptr){
+            ListNode*nextnode=temp->next;
+            temp->next=prev;
+            prev=temp;
+            temp=nextnode;
+        }
+        return prev;
+    }
+    ListNode* findkthelement(ListNode*temp,int k){
+        for(int i=1;i<k && temp!=nullptr;i++){
+            temp=temp->next;
+        }
+        return temp;
+    }
     ListNode* reverseKGroup(ListNode* head, int k) {
-
-        if(head == nullptr || k == 1) return head;
-
-        ListNode* temp = head;
-        ListNode* prevNode = nullptr;
-
-        while(temp != nullptr) {
-
-            // Find kth node
-            ListNode* kthNode = temp;
-
-            for(int i = 1; i < k && kthNode != nullptr; i++) {
-                kthNode = kthNode->next;
-            }
-
-            // If less than k nodes remain
-            if(kthNode == nullptr) {
-                if(prevNode != nullptr) {
-                    prevNode->next = temp;
-                }
+        ListNode*temp=head;
+        ListNode*prevnode=nullptr;
+        ListNode*nextnode=nullptr;
+        ListNode*kthelement=nullptr;
+        while(temp!=nullptr){
+            kthelement=findkthelement(temp,k);
+            if(kthelement==nullptr){
+                prevnode->next=temp;
                 break;
             }
-
-            // Save next group
-            ListNode* nextNode = kthNode->next;
-
-            // Reverse current group
-            ListNode* prev = nextNode;
-            ListNode* curr = temp;
-
-            while(curr != nextNode) {
-                ListNode* front = curr->next;
-                curr->next = prev;
-                prev = curr;
-                curr = front;
+            nextnode=kthelement->next;
+            kthelement->next=nullptr;
+            reverse(temp);
+            ListNode*newhead=kthelement;
+            if(head==temp){
+                head=newhead;
             }
-
-            // Connect previous group
-            if(prevNode == nullptr) {
-                head = kthNode;
+            else{
+                prevnode->next=kthelement;
             }
-            else {
-                prevNode->next = kthNode;
-            }
-
-            // Old head becomes tail
-            prevNode = temp;
-
-            // Move to next group
-            temp = nextNode;
+            prevnode=temp;
+            temp=nextnode;
         }
-
         return head;
+
+
     }
 };

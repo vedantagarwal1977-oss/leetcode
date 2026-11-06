@@ -1,8 +1,7 @@
-
 class Solution {
 public:
-    ListNode* reverse(ListNode* temp){
-        ListNode*prev=nullptr;
+    ListNode* reverse(ListNode*temp){
+        ListNode* prev=nullptr;
         while(temp!=nullptr){
             ListNode*nextnode=temp->next;
             temp->next=prev;
@@ -11,7 +10,7 @@ public:
         }
         return prev;
     }
-    ListNode* findkthelement(ListNode*temp,int k){
+    ListNode*findthekth(ListNode*temp,int k){
         for(int i=1;i<k && temp!=nullptr;i++){
             temp=temp->next;
         }
@@ -19,21 +18,19 @@ public:
     }
     ListNode* reverseKGroup(ListNode* head, int k) {
         ListNode*temp=head;
-        ListNode*prevnode=nullptr;
         ListNode*nextnode=nullptr;
+        ListNode*prevnode=nullptr;
         ListNode*kthelement=nullptr;
         while(temp!=nullptr){
-            kthelement=findkthelement(temp,k);
+            kthelement=findthekth(temp,k);
             if(kthelement==nullptr){
                 prevnode->next=temp;
-                break;
-            }
+                break;}
             nextnode=kthelement->next;
             kthelement->next=nullptr;
-            reverse(temp);
-            ListNode*newhead=kthelement;
+            kthelement=reverse(temp);
             if(head==temp){
-                head=newhead;
+                head=kthelement;
             }
             else{
                 prevnode->next=kthelement;
@@ -42,7 +39,6 @@ public:
             temp=nextnode;
         }
         return head;
-
-
+          
     }
 };

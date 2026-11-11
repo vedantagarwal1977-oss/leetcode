@@ -1,29 +1,26 @@
 class Solution {
 public:
-    void comb(vector<int>& nums, int target,vector<int> &combination,vector<vector<int>> &ans,int n,int i,set<vector<int>> &s){
+    vector<vector<int>> print(int i,int target,vector<vector<int>> &array,vector<int> &nums,int n,vector<int> candidates){
+        if(i==n){
+            if(target==0){
+                array.push_back(nums);
+            }
+            return array;
+        } 
+        if(candidates[i]<=target){
+        nums.push_back(candidates[i]);
+         print(i,target-candidates[i],array,nums,n,candidates);
+         nums.pop_back();}
+         print(i+1,target,array,nums,n,candidates);
+         return array;
         
-        if(i==n || target<0){return;}
-        if(target==0){
-            if(s.find(combination)==s.end()){
-            ans.push_back(combination);
-            s.insert(combination);}
-        return;}
-        combination.push_back(nums[i]);
-        comb(nums,target-nums[i],combination,ans,n,i+1,s);
-        comb(nums,target-nums[i],combination,ans,n,i,s);
-        combination.pop_back();
-        comb(nums,target,combination,ans,n,i+1,s);
-        }
-    
-    vector<vector<int>> combinationSum(vector<int>& nums, int target) {
-        set<vector<int>> s;
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         int i=0;
-        int n=nums.size();
-        vector<int> combination;
-        vector<vector<int>> ans;
-        comb(nums,target,combination,ans,n,i,s);
-        return ans;
-
+        int n=candidates.size();
+        vector<vector<int>> array;
+        vector<int> nums;
+       return print(i,target,array,nums,n,candidates);
         
     }
 };
